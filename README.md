@@ -2,10 +2,21 @@
 
 BASH tools cleaning up Bareos database and file storage.
 
-This is a purely pragmatic toolset, i.e. no plans for making it a "product" of any kind for now!
 
-Current commands:
+# Configuration
 
+    POOLDIR
+        Directory where pool files are placed on hard drive.
+        In Default setup you can find the directory in file /etc/bareos/bareos-sd.d/device/FileStorage.conf
+        
+    MYSQL_USER
+        Username for MySQL Connection
+        
+    MYSQL_PASSWORD
+        Password for MySQL Connection
+
+
+# Commands:
 
     -e
        delete empty (JobBytes=0) jobs
