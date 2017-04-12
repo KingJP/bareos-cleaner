@@ -1,10 +1,10 @@
-# bareos-cleaner
+# bareos-cleaner [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b1934fc24bc34251aa437ef095a8109f)](https://www.codacy.com/app/KingJP/bareos-cleaner?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=KingJP/bareos-cleaner&amp;utm_campaign=Badge_Grade)
 
 BASH tools cleaning up Bareos database and file storage.
 
 
-# Configuration
-
+## Configuration
+```
     POOLDIR
         Directory where pool files are placed on hard drive.
         In Default setup you can find the directory in file /etc/bareos/bareos-sd.d/device/FileStorage.conf
@@ -14,10 +14,10 @@ BASH tools cleaning up Bareos database and file storage.
         
     MYSQL_PASSWORD
         Password for MySQL Connection
+```
 
-
-# Commands:
-
+## Commands:
+```
     -e
        delete empty (JobBytes=0) jobs
     -p
@@ -35,3 +35,4 @@ BASH tools cleaning up Bareos database and file storage.
        delete all purged volumes from Bacula catalog
     -h
        print this screen
+```
