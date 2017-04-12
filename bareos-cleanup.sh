@@ -115,16 +115,16 @@ delete_obsolete_volumes() {
         done
 
         # Check whether we have found some volumes(files) to delete
-        if [ `wc -l $VOLUMES_TO_DELETE | awk {'print $1'}` -gt 0 ]; then
+        if [ $(wc -l $VOLUMES_TO_DELETE | awk {'print $1'}) -gt 0 ]; then
 
                 echo ""
                 echo -n "Are you sure you want to delete these volumes(files) from the disk ? (yes|no): "
                 read response
 
                 if [ "$response" = "yes" ]; then
-                        cat $VOLUMES_TO_DELETE | while read I; do
+			while read I; do
                                 rm -f "$I"
-                        done
+                        done < $VOLUMES_TO_DELETE
 
                         echo ""
                         echo "DONE: following files were deleted: "
@@ -146,7 +146,7 @@ delete_purged_volumes() {
         echo "searching for all purged volumes to be deleted..."
         echo ""
 
-        PURGED_VOLUMES=`echo "list volumes" | bconsole | grep "Purged.*File" | awk {'print $4'}`
+        PURGED_VOLUMES=$(echo "list volumes" | bconsole | grep "Purged.*File" | awk {'print $4'})
         echo "$PURGED_VOLUMES"
 
         echo ""
