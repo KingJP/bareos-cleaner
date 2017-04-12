@@ -1,5 +1,7 @@
 # bareos-cleaner
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b1934fc24bc34251aa437ef095a8109f)](https://www.codacy.com/app/KingJP/bareos-cleaner?utm_source=github.com&utm_medium=referral&utm_content=KingJP/bareos-cleaner&utm_campaign=badger)
+
 BASH tools cleaning up Bareos database and file storage.
 
 
