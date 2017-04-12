@@ -1,9 +1,9 @@
 #!/bin/bash
 
-POOLDIR="$BAREOS_POOLDIR"
-if [ -z "$POOLDIR" ]; then
-  POOLDIR="/mnt/raid/backup/bareos/storage"
-fi
+# Configuration
+POOLDIR="/var/lib/bareos/storage"
+MYSQL_USER="bareos"
+MYSQL_PASSWORD="xxx"
 
 function print_usage() {
 	echo "  -e";
@@ -57,7 +57,7 @@ del_empty() {
 	
 	while read jid; do
 	  echo "delete jobid=$jid" >> $BACULA_BATCH;
-	done < <(echo "select jobid from Job where JobBytes=0 and JobFiles=0 and (JobStatus='T' or JobStatus='f' or JobStatus='A' or JobStatus='E');" | mysql --batch --skip-column-names bareos)
+	done < <(echo "select jobid from Job where JobBytes=0 and JobFiles=0 and (JobStatus='T' or JobStatus='f' or JobStatus='A' or JobStatus='E');" | mysql --user="$MYSQL_USER" --password="MYSQL_PASSWORD" --batch --skip-column-names bareos)
 	
 	bconsole < $BACULA_BATCH 
 	rm -f $BACULA_BATCH
@@ -67,7 +67,7 @@ del_copied_jobs() {
 	BACULA_BATCH="$(mktemp)"
 	
 	echo ""
-	echo "SELECT DISTINCT Job.PriorJobId AS JobId, Job.Job, Job.JobId AS CopyJobId, Media.MediaType FROM Job JOIN JobMedia USING (JobId) JOIN Media USING (MediaId) WHERE Job.Type = 'C' ORDER BY Job.PriorJobId DESC;" | mysql -t bareos
+	echo "SELECT DISTINCT Job.PriorJobId AS JobId, Job.Job, Job.JobId AS CopyJobId, Media.MediaType FROM Job JOIN JobMedia USING (JobId) JOIN Media USING (MediaId) WHERE Job.Type = 'C' ORDER BY Job.PriorJobId DESC;" | mysql --user="$MYSQL_USER" --password="MYSQL_PASSWORD" -t bareos
         echo ""
         echo "This will delete jobs from the first column above."
         echo -n "Are you sure ? (yes|no): "
@@ -75,7 +75,7 @@ del_copied_jobs() {
         if [ "$response" = "yes" ]; then
           while read jid; do
             echo "delete jobid=$jid" >> $BACULA_BATCH;
-          done < <(echo "SELECT DISTINCT Job.PriorJobId AS JobId FROM Job JOIN JobMedia USING (JobId) JOIN Media USING (MediaId) WHERE Job.Type = 'C' ORDER BY Job.PriorJobId DESC;" | mysql --batch --skip-column-names bareos)
+          done < <(echo "SELECT DISTINCT Job.PriorJobId AS JobId FROM Job JOIN JobMedia USING (JobId) JOIN Media USING (MediaId) WHERE Job.Type = 'C' ORDER BY Job.PriorJobId DESC;" | mysql --user="$MYSQL_USER" --password="MYSQL_PASSWORD" --batch --skip-column-names bareos)
           bconsole <  $BACULA_BATCH
         fi
         rm -f $BACULA_BATCH
