@@ -4,6 +4,7 @@ BASH tools cleaning up Bareos database and file storage.
 
 
 ## Configuration
+
 ```
 POOLDIR
     Directory where pool files are placed on hard drive.
@@ -17,6 +18,7 @@ MYSQL_PASSWORD
 ```
 
 ## Commands:
+
 ```
 -e
     delete empty (JobBytes=0) jobs
